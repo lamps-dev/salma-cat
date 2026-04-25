@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐱 click me bro 🐱</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    color: #eee;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* === START SCREEN === */
+  #startScreen {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 20px;
+  }
+
+  /* Black tortoiseshell button */
+  #startBtn {
+    position: relative;
+    padding: 26px 60px;
+    border: none;
+    color: #fff8e1;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    border-radius: 60px;
+    cursor: pointer;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+    text-shadow:
+      0 0 4px rgba(0,0,0,0.9),
+      0 2px 4px rgba(0,0,0,1),
+      0 0 12px rgba(255, 165, 0, 0.5);
+    /* Tortoiseshell base: deep blacks layered with amber/caramel/honey blotches */
+    background:
+      radial-gradient(ellipse 50px 35px at 18% 28%, #5a3010 0%, #3a1c08 40%, transparent 70%),
+      radial-gradient(ellipse 60px 40px at 75% 70%, #6b3818 0%, #2a1404 45%, transparent 75%),
+      radial-gradient(ellipse 35px 50px at 50% 15%, #c87420 0%, #5a2e0a 50%, transparent 80%),
+      radial-gradient(ellipse 45px 30px at 88% 25%, #a85820 0%, #4a2008 50%, transparent 80%),
+      radial-gradient(ellipse 30px 40px at 30% 80%, #b86420 0%, #3a1808 55%, transparent 85%),
+      radial-gradient(ellipse 55px 25px at 60% 50%, #1a0d04 0%, #0a0402 60%, transparent 90%),
+      radial-gradient(ellipse 25px 35px at 8% 60%, #d88830 0%, #5a2c0a 50%, transparent 85%),
+      linear-gradient(135deg, #1a0a02 0%, #2a1408 30%, #100804 60%, #0a0402 100%);
+    background-blend-mode: normal, normal, screen, screen, screen, multiply, screen, normal;
+    box-shadow:
+      inset 0 2px 4px rgba(255, 200, 100, 0.15),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.8),
+      inset 0 0 30px rgba(0, 0, 0, 0.6),
+      0 8px 24px rgba(0, 0, 0, 0.7),
+      0 2px 6px rgba(255, 140, 0, 0.15);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #startBtn::before {
+    /* Glossy highlight */
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 10%;
+    right: 10%;
+    height: 35%;
+    background: linear-gradient(180deg, rgba(255, 220, 180, 0.25), transparent);
+    border-radius: 60px 60px 100% 100% / 60px 60px 100% 100%;
+    pointer-events: none;
+  }
+  #startBtn::after {
+    /* Extra mottled blotches as a pseudo layer */
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 60px;
+    background:
+      radial-gradient(circle 8px at 22% 45%, rgba(220, 140, 50, 0.6), transparent 70%),
+      radial-gradient(circle 6px at 70% 30%, rgba(180, 100, 30, 0.5), transparent 70%),
+      radial-gradient(circle 10px at 45% 75%, rgba(200, 110, 40, 0.4), transparent 70%),
+      radial-gradient(circle 5px at 90% 60%, rgba(240, 160, 60, 0.5), transparent 70%);
+    pointer-events: none;
+  }
+  #startBtn:hover {
+    transform: scale(1.05);
+    box-shadow:
+      inset 0 2px 4px rgba(255, 200, 100, 0.25),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.8),
+      inset 0 0 30px rgba(0, 0, 0, 0.6),
+      0 12px 32px rgba(0, 0, 0, 0.8),
+      0 4px 12px rgba(255, 140, 0, 0.3);
+  }
+  #startBtn:active {
+    transform: scale(0.98);
+  }
+
+  /* === WAITING SCREEN === */
+  #waitScreen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 5;
+  }
+  #waitScreen .dots {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: #444;
+    letter-spacing: 8px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  #waitScreen .text {
+    color: #2a2a2a;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50%      { opacity: 1; }
+  }
+
+  /* === CAT JUMPSCARE === */
+  #catScreen {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    z-index: 100;
+  }
+  #catImg {
+    max-width: 100%;
+    max-height: 100vh;
+    width: auto;
+    height: 100vh;
+    object-fit: contain;
+    image-rendering: pixelated;
+    animation: shake 0.08s linear infinite, zoomin 0.3s ease-out;
+  }
+  @keyframes shake {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-3px, 2px); }
+    50%  { transform: translate(2px, -2px); }
+    75%  { transform: translate(-2px, -3px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes zoomin {
+    0%   { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  audio { display: none; }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <button id="startBtn">click me</button>
+</div>
+
+<div id="waitScreen">
+  <div class="dots">. . .</div>
+  <div class="text">just vibing</div>
+</div>
+
+<div id="catScreen">
+  <img id="catImg" src="salma.png" alt="cat">
+</div>
+
+<audio id="song" src="song.wav" preload="auto"></audio>
+
+<script>
+  const startScreen = document.getElementById('startScreen');
+  const waitScreen  = document.getElementById('waitScreen');
+  const catScreen   = document.getElementById('catScreen');
+  const startBtn    = document.getElementById('startBtn');
+  const song        = document.getElementById('song');
+
+  const START_TIME    = 39;   // song starts at 0:39
+  const DROP_TIME     = 47;   // beat drop at 0:47 -> show cat
+  const REDIRECT_TIME = 57;   // 10s after the drop -> redirect
+  const REDIRECT_URL  = 'https://www.youtube.com/watch?v=L4MlbwcaKLo';
+
+  let dropFired = false;
+  let redirected = false;
+
+  function redirectNow() {
+    if (redirected) return;
+    redirected = true;
+    // Try same tab first; if blocked, fall back to a new tab.
+    try {
+      window.location.href = REDIRECT_URL;
+    } catch (e) {
+      window.open(REDIRECT_URL, '_blank');
+    }
+    // Safety net: if same-tab nav was blocked for any reason, also try new tab after a tiny delay.
+    setTimeout(() => {
+      // If we're still on the page after 400ms, the nav probably failed -> open new tab.
+      window.open(REDIRECT_URL, '_blank');
+    }, 400);
+  }
+
+  startBtn.addEventListener('click', async () => {
+    startScreen.style.display = 'none';
+    waitScreen.style.display = 'flex';
+
+    song.currentTime = START_TIME;
+    try {
+      await song.play();
+    } catch (err) {
+      console.warn('Audio play failed:', err);
+    }
+
+    song.addEventListener('timeupdate', () => {
+      if (!dropFired && song.currentTime >= DROP_TIME) {
+        dropFired = true;
+        waitScreen.style.display = 'none';
+        catScreen.style.display = 'flex';
+      }
+      if (!redirected && song.currentTime >= REDIRECT_TIME) {
+        redirectNow();
+      }
+    });
+
+    // Backup timers in case timeupdate gets weird
+    setTimeout(() => {
+      if (!dropFired) {
+        dropFired = true;
+        waitScreen.style.display = 'none';
+        catScreen.style.display = 'flex';
+      }
+    }, (DROP_TIME - START_TIME) * 1000);
+
+    setTimeout(() => {
+      redirectNow();
+    }, (REDIRECT_TIME - START_TIME) * 1000);
+  });
+</script>
+
+</body>
+</html>
